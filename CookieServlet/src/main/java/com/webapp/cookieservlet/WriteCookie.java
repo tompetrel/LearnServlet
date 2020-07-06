@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,13 @@ public class WriteCookie extends HttpServlet {
             out.println("<title>Servlet WriteCookie</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet WriteCookie at " + request.getContextPath() + "</h1>");
+
+            Cookie cookie = new Cookie("username", "name");
+            cookie.setMaxAge(60*60*60);
+            response.addCookie(cookie);
+            
+            out.println("<h1>Cookie has been written !</h1>");
+
             out.println("</body>");
             out.println("</html>");
         }
