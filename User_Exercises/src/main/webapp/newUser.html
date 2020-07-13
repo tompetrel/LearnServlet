@@ -13,16 +13,16 @@ and open the template in the editor.
     <body>
         <h1>New User</h1>
         <hr>
-        <form action="newUserController" method="post">
+        <form action="NewUser" method="post">
             Name:
-            <input type="text" name="name">
+            <input type="text" name="name"><br><br>
             Password:
-            <input type="text" name="password">
+            <input type="password" name="password"><br><br>
             Gender:
-            <input type="radio" name="gender" value="Male">
-            <input type="radio" name="gender" value="Female">
-            
-            <input type="submit" value="Registry">
+            <input type="radio" name="gender" value="true"> Male
+            <input type="radio" name="gender" value="false"> Female<br><br>
+
+            <input type="submit" value="Add User">
 
         </form>
     </body>

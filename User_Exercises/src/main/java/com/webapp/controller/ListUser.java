@@ -5,8 +5,11 @@
  */
 package com.webapp.controller;
 
+import com.webapp.dao.UserDao;
+import com.webapp.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TAI
  */
-@WebServlet(name = "newUserController", urlPatterns = {"/newUserController"})
-public class newUserController extends HttpServlet {
+@WebServlet(name = "ListUser", urlPatterns = {"/ListUser"})
+public class ListUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,14 +40,23 @@ public class newUserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newUserController</title>");            
+            out.println("<title>Servlet ListUser</title>");
             out.println("</head>");
             out.println("<body>");
-            
-            String name = request.getParameter("name");
-            String password = request.getParameter("password");
-            String gender = request.getParameter("gender");
-
+            out.println("<ul>");
+            try {
+                UserDao dao = new UserDao();
+                List<User> listUser = dao.getAllUser();
+                for (User user : listUser) {
+                    String st = "%d - %s - %s - %s";
+                    st = String.format(st, user.getUsername(), user.getPassword(), user.getName(), user.isGender() ? "Male" : "Female");
+                    out.println("<li> " + st);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                out.println("Error: " + e.getMessage());
+            }
+            out.println("</ul>");
             out.println("</body>");
             out.println("</html>");
         }
