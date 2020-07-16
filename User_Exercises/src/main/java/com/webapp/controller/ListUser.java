@@ -6,6 +6,7 @@
 package com.webapp.controller;
 
 import com.webapp.dao.UserDao;
+import com.webapp.helpers.sessionHelper;
 import com.webapp.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +35,7 @@ public class ListUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(sessionHelper.checkUserLogin(request, response))return;
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -49,7 +51,8 @@ public class ListUser extends HttpServlet {
                 List<User> listUser = dao.getAllUser();
                 for (User user : listUser) {
                     String st = "%d - %s - %s - %s";
-                    st = String.format(st, user.getUsername(), user.getPassword(), user.getName(), user.isGender() ? "Male" : "Female");
+                    st += "<a href='EditUser?username=%s'>Edit</a>|<a href='deleteUser?username=%s'>Delete</a>";
+                    st = String.format(st, user.getUsername(), user.getPassword(), user.getName(), user.isGender() ? "Male" : "Female", user.getUsername(), user.getUsername());
                     out.println("<li> " + st);
                 }
             } catch (Exception e) {
@@ -61,6 +64,8 @@ public class ListUser extends HttpServlet {
             out.println("</html>");
         }
     }
+
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

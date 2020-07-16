@@ -6,6 +6,7 @@
 package com.webapp.controller;
 
 import com.webapp.dao.UserDao;
+import com.webapp.helpers.sessionHelper;
 import com.webapp.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +34,7 @@ public class NewUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(sessionHelper.checkUserLogin(request, response))return;
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

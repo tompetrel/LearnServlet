@@ -79,4 +79,40 @@ public class UserDao {
         }
     }
 
+    public boolean deleteUser(int username) throws Exception {
+        String sql = "delete from [User] where Username = ?";
+
+        try (
+                 Connection con = DatabaseHelper.openConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+
+            ps.setInt(1, username);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public User checkLogin(int username, String password) throws Exception {
+        User user = findByID(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
+
+    public List<User> findByName(String name) throws Exception {
+        List<User> list = new ArrayList<>();
+        String sql = "select * from [User] where Name like ?";
+
+        try (
+                 Connection con = DatabaseHelper.openConnection();  PreparedStatement ps = con.prepareStatement(sql);) {
+
+            ps.setString(1, "%" + name + "%");
+            try ( ResultSet rs = ps.executeQuery();) {
+                while (rs.next()) {
+                    User user = new User(rs.getInt("Username"), rs.getString("Password"), rs.getString("Name"), rs.getBoolean("Gender"));
+                    list.add(user);
+                }
+            }
+        }
+        return list;
+    }
 }

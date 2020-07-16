@@ -6,6 +6,7 @@
 package com.webapp.controller;
 
 import com.webapp.dao.UserDao;
+import com.webapp.helpers.sessionHelper;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class deleteUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(sessionHelper.checkUserLogin(request, response))return;
         String username = request.getParameter("username");
         if (username != null) {
             try {

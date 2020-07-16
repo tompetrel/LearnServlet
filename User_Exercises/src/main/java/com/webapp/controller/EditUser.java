@@ -5,8 +5,11 @@
  */
 package com.webapp.controller;
 
+import com.webapp.dao.UserDao;
+import com.webapp.helpers.sessionHelper;
+import com.webapp.model.User;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,69 +23,45 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "EditUser", urlPatterns = {"/EditUser"})
 public class EditUser extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditUser</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EditUser at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if(sessionHelper.checkUserLogin(request, response))return;
+        try {
+            String username = request.getParameter("username");
+            UserDao dao = new UserDao();
+            User user = dao.findByID(Integer.parseInt(username));
+            if (user == null) {
+                RequestDispatcher rd = request.getRequestDispatcher("ListUser");
+                rd.forward(request, response);
+            } else {
+                request.setAttribute("user", user);
+                RequestDispatcher rd = request.getRequestDispatcher("editUser.jsp");
+                rd.forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        if(sessionHelper.checkUserLogin(request, response))return;
+        try {
+            UserDao dao = new UserDao();
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String name = request.getParameter("name");
+            String gender = request.getParameter("gender");
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+            User user = new User(Integer.parseInt(username), password, name, Boolean.parseBoolean(gender));
+            dao.updateUser(user);
+            RequestDispatcher rd = request.getRequestDispatcher("ListUser");
+            rd.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
