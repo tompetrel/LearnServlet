@@ -51,12 +51,18 @@ public class InsertStudents extends HttpServlet {
             String email = request.getParameter("email");
             String address = request.getParameter("address");
 
-            StudentsEntity student = new StudentsEntity(0, name, Boolean.parseBoolean(gender), phone, email, address);
+            StudentsEntity student = new StudentsEntity();
+            student.setName(name);
+            student.setGender(Boolean.parseBoolean(gender));
+            student.setPhone(phone);
+            student.setEmail(email);
+            student.setAddress(address);
+
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.softech_student-hibernate_war_1.0-SNAPSHOTPU");
             StudentsEntityJpaController controller = new StudentsEntityJpaController(emf);
             controller.create(student);
             out.println("<h1> Student saved </h1>");
-            out.println("<a href='InsertStudents.html'>Insert Another student</a>");
+            out.println("<a href='InsertStudennts.html'>Insert Another student</a>");
 
             out.println("</body>");
             out.println("</html>");
