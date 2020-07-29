@@ -4,6 +4,8 @@
     Author     : TAI
 --%>
 
+<%@page import="javax.persistence.Query"%>
+<%@page import="javax.persistence.EntityManager"%>
 <%@page import="java.util.List"%>
 <%@page import="com.webapp.product.entities.ProductEntity"%>
 <%@page import="com.webapp.product.controllers.ProductEntityJpaController"%>
@@ -32,13 +34,13 @@
             </tr>
             <%
                 if (request.getMethod().equals("POST")) {
-//                    String name = request.getParameter("name");
+                    String name = request.getParameter("name");
                     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.webapp_Product_war_1.0-SNAPSHOTPU");
-
-                    ProductEntityJpaController controller = new ProductEntityJpaController(emf);
-                    List<ProductEntity> list = controller.findProductEntityEntities();
+                    EntityManager manager = emf.createEntityManager();
+                    Query findByName = manager.createNamedQuery("ProductEntity.findByName");
+                    findByName.setParameter("name", name);
+                    List<ProductEntity> list = findByName.getResultList();
                     for (ProductEntity productEntity : list) {
-
                         request.setAttribute("entity", productEntity);
 
             %>
