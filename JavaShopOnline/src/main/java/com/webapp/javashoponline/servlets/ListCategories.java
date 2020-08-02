@@ -5,10 +5,9 @@
  */
 package com.webapp.javashoponline.servlets;
 
-import com.webapp.javashoponline.controllers.CategoriesJpaController;
+import com.webapp.javashoponline.controllers.CategoryJpaController;
 import com.webapp.javashoponline.entities.Category;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -38,11 +37,10 @@ public class ListCategories extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.webapp_JavaShopOnline_war_1.0-SNAPSHOTPU");
-        CategoriesJpaController controller = new CategoriesJpaController(emf);
-
-        List<Category> list = controller.findCategoriesEntities();
+        CategoryJpaController controller = new CategoryJpaController(emf);
+        List<Category> list = controller.findCategoryEntities();
         request.setAttribute("categories", list);
-        RequestDispatcher rd = request.getRequestDispatcher("backed/categories/list.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("backend/categories/list.jsp");
         rd.forward(request, response);
     }
 

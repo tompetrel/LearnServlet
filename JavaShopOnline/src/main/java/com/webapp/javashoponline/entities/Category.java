@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Categories")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Categories.findAll", query = "SELECT c FROM Categories c"),
-    @NamedQuery(name = "Categories.findByCategoryId", query = "SELECT c FROM Categories c WHERE c.categoryId = :categoryId"),
-    @NamedQuery(name = "Categories.findByName", query = "SELECT c FROM Categories c WHERE c.name = :name")})
+    @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
+    @NamedQuery(name = "Category.findByCategoryId", query = "SELECT c FROM Category c WHERE c.categoryId = :categoryId"),
+    @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class Category implements Serializable {
     @Column(name = "Name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private Collection<Product> productsCollection;
+    private Collection<Product> productCollection;
 
     public Category() {
     }
@@ -71,12 +71,12 @@ public class Category implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Product> getProductsCollection() {
-        return productsCollection;
+    public Collection<Product> getProductCollection() {
+        return productCollection;
     }
 
-    public void setProductsCollection(Collection<Product> productsCollection) {
-        this.productsCollection = productsCollection;
+    public void setProductCollection(Collection<Product> productCollection) {
+        this.productCollection = productCollection;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "com.webapp.javashoponline.entities.Categories[ categoryId=" + categoryId + " ]";
+        return "com.webapp.javashoponline.entities.Category[ categoryId=" + categoryId + " ]";
     }
     
 }

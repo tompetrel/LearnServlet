@@ -32,15 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Products")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p"),
-    @NamedQuery(name = "Products.findByProductId", query = "SELECT p FROM Products p WHERE p.productId = :productId"),
-    @NamedQuery(name = "Products.findByName", query = "SELECT p FROM Products p WHERE p.name = :name"),
-    @NamedQuery(name = "Products.findByQuantity", query = "SELECT p FROM Products p WHERE p.quantity = :quantity"),
-    @NamedQuery(name = "Products.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price"),
-    @NamedQuery(name = "Products.findByStatus", query = "SELECT p FROM Products p WHERE p.status = :status"),
-    @NamedQuery(name = "Products.findByManufactureDate", query = "SELECT p FROM Products p WHERE p.manufactureDate = :manufactureDate"),
-    @NamedQuery(name = "Products.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description"),
-    @NamedQuery(name = "Products.findByImage", query = "SELECT p FROM Products p WHERE p.image = :image")})
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findByProductId", query = "SELECT p FROM Product p WHERE p.productId = :productId"),
+    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+    @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
+    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+    @NamedQuery(name = "Product.findByStatus", query = "SELECT p FROM Product p WHERE p.status = :status"),
+    @NamedQuery(name = "Product.findByManufactureDate", query = "SELECT p FROM Product p WHERE p.manufactureDate = :manufactureDate"),
+    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
+    @NamedQuery(name = "Product.findByImage", query = "SELECT p FROM Product p WHERE p.image = :image")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -186,7 +186,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "com.webapp.javashoponline.entities.Products[ productId=" + productId + " ]";
+        return "com.webapp.javashoponline.entities.Product[ productId=" + productId + " ]";
     }
     
 }

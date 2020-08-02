@@ -1,3 +1,8 @@
+<%@page import="com.webapp.javashoponline.entities.Category"%>
+<%@page import="java.util.List"%>
+<%@page import="com.webapp.javashoponline.controllers.CategoryJpaController"%>
+<%@page import="javax.persistence.Persistence"%>
+<%@page import="javax.persistence.EntityManagerFactory"%>
 <%@include file="../../common/templates/backend/header.jsp" %>
 <%@include file="../../common/templates/backend/navbar.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,7 +19,13 @@
                         <td>Name</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <c:forEach var="entity" items="${categories}">
+                    <%
+                        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.webapp_JavaShopOnline_war_1.0-SNAPSHOTPU");
+                        CategoryJpaController controller = new CategoryJpaController(emf);
+                        List<Category> list = controller.findCategoryEntities();
+                        for (Category category : list) {
+                            request.setAttribute("entity", category);
+                    %>
                     <tr>
                         <td>${entity.categoryId}</td>
                         <td>${entity.name}</td>
@@ -24,10 +35,8 @@
                             <a href="DeleteCategory?id=${entity.categoryId}">Delete</a>
                         </td>
                     </tr>
-                    </c:forEach>
-                    
+                    <%}%>
                 </table>
-                
             </div>
         </div>
     </article>
