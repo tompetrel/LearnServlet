@@ -1,6 +1,6 @@
 <%@include file="../../common/templates/backend/header.jsp" %>
 <%@include file="../../common/templates/backend/navbar.jsp" %>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="row">
     <article class="col">
         <div class="card">
@@ -14,16 +14,18 @@
                         <td>Name</td>
                         <td>&nbsp;</td>
                     </tr>
+                    <c:forEach var="entity" items="${categories}">
                     <tr>
-                        <td>1</td>
-                        <td>Hat</td>
-                        <td>Detail | Edit | Delete</td>
+                        <td>${entity.categoryId}</td>
+                        <td>${entity.name}</td>
+                        <td>
+                            <a href="DetailCategory?id=${entity.categoryId}">Detail</a>
+                            <a href="EditCategory?id=${entity.categoryId}">Edit</a>
+                            <a href="DeleteCategory?id=${entity.categoryId}">Delete</a>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jeans</td>
-                        <td>Detail | Edit | Delete</td>
-                    </tr>
+                    </c:forEach>
+                    
                 </table>
                 
             </div>
